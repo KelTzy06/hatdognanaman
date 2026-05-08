@@ -2,13 +2,19 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>Qbit - Calculator Suite</title>
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+        }
+
+        html, body {
+            width: 100%;
+            height: 100%;
+            overflow-x: hidden;
         }
 
         body {
@@ -37,6 +43,7 @@
             max-width: 380px;
             box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
             backdrop-filter: blur(10px);
+            margin: 20px;
         }
 
         .logo-container {
@@ -785,7 +792,19 @@
             background: rgba(40, 50, 75, 0.8);
         }
 
-        /* Mobile Responsive Styles */
+        /* Toggle button for mobile */
+        .menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            color: #ffffff;
+            font-size: 24px;
+            cursor: pointer;
+            z-index: 1001;
+            padding: 10px;
+        }
+
+        /* Mobile Responsive Design */
         @media (max-width: 768px) {
             body {
                 flex-direction: column;
@@ -797,65 +816,59 @@
 
             .sidebar {
                 width: 100%;
-                flex-direction: row;
-                padding: 15px;
+                position: fixed;
+                top: 0;
+                left: -100%;
+                height: 100vh;
+                z-index: 1000;
+                transition: left 0.3s ease;
                 border-right: none;
-                border-bottom: 1px solid rgba(100, 100, 150, 0.2);
-                overflow-x: auto;
-                max-height: auto;
-            }
-
-            .logo-section {
-                margin-bottom: 0;
-                padding-bottom: 0;
                 border-bottom: none;
-                margin-right: 20px;
+                overflow-y: auto;
             }
 
-            .calculators-label {
-                display: none;
+            .sidebar.active {
+                left: 0;
             }
 
-            .nav-menu {
-                flex-direction: row;
-                gap: 5px;
-                flex: 1;
-                overflow-x: auto;
+            .menu-toggle {
+                display: block;
+                position: fixed;
+                top: 10px;
+                left: 10px;
+                z-index: 1002;
             }
 
-            .nav-item {
-                padding: 10px 12px;
-                font-size: 12px;
-                white-space: nowrap;
-                min-width: fit-content;
-            }
-
-            .nav-icon {
-                font-size: 14px;
-            }
-
-            .sign-out {
-                margin-top: 0;
-                margin-left: auto;
+            .close-menu {
+                position: absolute;
+                top: 10px;
+                right: 15px;
+                font-size: 24px;
+                background: none;
+                border: none;
+                color: #ffffff;
+                cursor: pointer;
             }
 
             .main-content {
                 padding: 20px;
-                flex: 1;
+                padding-top: 60px;
+                margin-top: 0;
             }
 
             .calculator-title {
-                font-size: 20px;
+                font-size: 24px;
                 margin-bottom: 20px;
             }
 
             .calculator-container {
+                max-width: 100%;
                 padding: 15px;
             }
 
             .display {
+                font-size: 28px;
                 padding: 15px;
-                font-size: 24px;
                 margin-bottom: 15px;
             }
 
@@ -866,6 +879,7 @@
             .btn {
                 padding: 12px;
                 font-size: 14px;
+                border-radius: 8px;
             }
 
             .btn.equals {
@@ -874,26 +888,27 @@
 
             .scientific-layout {
                 flex-direction: column;
-                gap: 10px;
+                gap: 8px;
             }
 
-            .sci-functions {
-                grid-template-columns: repeat(4, 1fr);
-            }
-
+            .sci-functions,
             .sci-keypad {
                 grid-template-columns: repeat(4, 1fr);
+                gap: 8px;
             }
 
             .tabs {
                 flex-direction: column;
-                gap: 10px;
-                margin-bottom: 20px;
+                gap: 8px;
             }
 
             .tab-btn {
                 padding: 10px 12px;
-                font-size: 12px;
+                font-size: 13px;
+            }
+
+            .form-group {
+                margin-bottom: 15px;
             }
 
             .form-input {
@@ -902,16 +917,25 @@
             }
 
             .converter-input-group {
-                flex-direction: column;
+                flex-wrap: wrap;
+                gap: 8px;
+            }
+
+            .converter-input {
+                min-width: 70px;
+                flex: 1;
+                padding: 10px 12px;
             }
 
             .converter-select {
-                width: 100%;
+                padding: 10px 12px;
+                font-size: 13px;
             }
 
             .results-grid {
                 grid-template-columns: 1fr;
                 gap: 10px;
+                margin-top: 15px;
             }
 
             .result-card {
@@ -923,11 +947,26 @@
             }
 
             .result-value {
-                font-size: 16px;
+                font-size: 18px;
             }
 
             .slider-group {
                 margin-bottom: 20px;
+            }
+
+            .slider-label {
+                gap: 10px;
+                margin-bottom: 8px;
+            }
+
+            .slider-label-text,
+            .slider-value {
+                font-size: 13px;
+            }
+
+            .bmi-result {
+                padding: 15px;
+                margin-top: 20px;
             }
 
             .bmi-number {
@@ -935,97 +974,71 @@
             }
 
             .bmi-scale {
-                gap: 8px;
-                font-size: 10px;
-            }
-
-            .scale-item {
-                padding: 6px;
-            }
-
-            .base-input-group {
-                margin-bottom: 15px;
+                flex-direction: column;
+                font-size: 11px;
             }
 
             .base-input {
-                padding: 12px;
                 font-size: 18px;
+                padding: 12px;
+            }
+
+            .base-input-label {
+                font-size: 10px;
+            }
+
+            .electrical-header {
+                font-size: 16px;
+                margin-bottom: 15px;
             }
 
             .electrical-input-wrapper {
                 flex-direction: column;
+                gap: 6px;
+            }
+
+            .electrical-input {
+                padding: 10px 12px;
+                font-size: 13px;
             }
 
             .electrical-unit {
+                padding: 10px 12px;
+                font-size: 12px;
+                min-width: auto;
                 width: 100%;
-                min-width: unset;
             }
 
             .button-group {
                 flex-direction: column;
-                gap: 10px;
+                gap: 8px;
+                margin-top: 15px;
             }
 
             .calc-btn {
-                width: 100%;
-            }
-
-            .login-container {
-                padding: 30px 20px;
-                margin: 20px;
-                max-width: 100%;
-            }
-
-            h1 {
-                font-size: 22px;
-            }
-
-            .subtitle {
-                font-size: 12px;
-                margin-bottom: 30px;
-            }
-
-            .sign-in-btn {
                 padding: 12px 16px;
-                font-size: 14px;
+                font-size: 13px;
             }
         }
 
         @media (max-width: 480px) {
-            .sidebar {
-                flex-wrap: wrap;
-            }
-
-            .nav-menu {
-                width: 100%;
-                flex-wrap: wrap;
-                margin-top: 10px;
-            }
-
-            .nav-item {
-                flex: 1;
-                min-width: 70px;
-                padding: 8px 10px;
-                font-size: 11px;
-            }
-
             .main-content {
-                padding: 15px;
+                padding: 12px;
+                padding-top: 50px;
             }
 
             .calculator-title {
-                font-size: 18px;
+                font-size: 20px;
                 margin-bottom: 15px;
             }
 
             .calculator-container {
-                max-width: 100%;
                 padding: 12px;
             }
 
             .display {
+                font-size: 24px;
                 padding: 12px;
-                font-size: 20px;
                 margin-bottom: 12px;
                 min-height: 50px;
             }
@@ -1036,12 +1049,39 @@
 
             .btn {
                 padding: 10px;
-                font-size: 12px;
-                border-radius: 8px;
+                font-size: 13px;
+                border-radius: 6px;
             }
 
-            .scientific-layout {
+            .login-container {
+                padding: 30px 20px;
+                max-width: 90%;
+            }
+
+            .logo-section {
+                margin-bottom: 20px;
+                padding-bottom: 15px;
+            }
+
+            .logo-text {
+                font-size: 16px;
+            }
+
+            .calculators-label {
+                font-size: 10px;
+                margin-bottom: 10px;
+            }
+
+            .nav-item,
+            .sign-out {
+                padding: 10px 12px;
+                font-size: 13px;
                 gap: 8px;
+            }
+
+            .nav-icon {
+                font-size: 14px;
+                width: 18px;
             }
 
             .sci-functions,
@@ -1049,85 +1089,80 @@
                 grid-template-columns: repeat(3, 1fr);
             }
 
-            .form-group {
-                margin-bottom: 15px;
+            .converter-input-group {
+                flex-direction: column;
             }
 
-            .form-label {
-                font-size: 12px;
+            .converter-input,
+            .converter-select {
+                width: 100%;
             }
 
             .form-input {
-                padding: 10px;
+                padding: 8px 10px;
                 font-size: 13px;
-            }
-
-            .converter-label {
-                font-size: 12px;
-            }
-
-            .results-grid {
-                gap: 8px;
-            }
-
-            .result-card {
-                padding: 10px;
-            }
-
-            .result-label {
-                font-size: 10px;
-            }
-
-            .result-value {
-                font-size: 14px;
-            }
-
-            .base-input-label {
-                font-size: 10px;
-            }
-
-            .base-input {
-                padding: 10px;
-                font-size: 16px;
-            }
-
-            .electrical-header {
-                font-size: 16px;
-            }
-
-            .electrical-input-label {
-                font-size: 11px;
-            }
-
-            .electrical-input {
-                padding: 10px;
-                font-size: 13px;
-            }
-
-            .login-container {
-                padding: 25px 15px;
-                margin: 15px;
             }
 
             h1 {
-                font-size: 20px;
-                margin-bottom: 8px;
+                font-size: 24px;
+            }
+
+            .subtitle {
+                font-size: 12px;
             }
 
             input[type="text"],
             input[type="password"] {
-                padding: 11px 12px;
+                padding: 10px 12px;
                 font-size: 14px;
             }
 
-            .demo-account {
-                font-size: 12px;
-                margin: 20px 0;
+            .sign-in-btn {
+                padding: 12px 16px;
+                font-size: 14px;
+            }
+        }
+
+        @media (min-width: 769px) {
+            .menu-toggle {
+                display: none;
             }
 
-            .sign-in-btn {
-                padding: 11px 15px;
-                font-size: 13px;
+            .close-menu {
+                display: none;
+            }
+
+            .sidebar {
+                position: relative !important;
+                left: 0 !important;
+            }
+        }
+
+        /* Landscape orientation adjustments */
+        @media (max-height: 600px) and (max-width: 900px) {
+            .main-content {
+                padding: 15px;
+                justify-content: flex-start;
+                overflow-y: auto;
+            }
+
+            .calculator-title {
+                margin-bottom: 15px;
+            }
+
+            .display {
+                font-size: 20px;
+                min-height: 45px;
+                margin-bottom: 10px;
+            }
+
+            .buttons-grid {
+                gap: 6px;
+            }
+
+            .btn {
+                padding: 8px;
+                font-size: 12px;
             }
         }
     </style>
@@ -1177,7 +1212,9 @@
 
     <!-- Calculator Page -->
     <div id="calculatorPage">
+        <button class="menu-toggle" onclick="toggleMenu()">☰</button>
         <div class="sidebar">
+            <button class="close-menu" onclick="toggleMenu()">✕</button>
             <div class="logo-section">
                 <div class="hexagon-logo"></div>
                 <div class="logo-text">Qbit</div>
@@ -1507,6 +1544,24 @@
     </div>
 
     <script>
+        // Mobile menu toggle
+        function toggleMenu() {
+            const sidebar = document.querySelector('.sidebar');
+            sidebar.classList.toggle('active');
+        }
+
+        function closeMenu() {
+            const sidebar = document.querySelector('.sidebar');
+            if (window.innerWidth <= 768) {
+                sidebar.classList.remove('active');
+            }
+        }
+
+        // Close menu on calculator selection
+        document.querySelectorAll('.nav-item').forEach(item => {
+            item.addEventListener('click', closeMenu);
+        });
+
         // Login functionality
         document.getElementById('loginForm').addEventListener('submit', function(e) {
             e.preventDefault();
@@ -1837,6 +1892,8 @@
             document.getElementById('bmiCalc').style.display = type === 'bmi' ? 'block' : 'none';
             document.getElementById('programmerCalc').style.display = type === 'programmer' ? 'block' : 'none';
             document.getElementById('electricalCalc').style.display = type === 'electrical' ? 'block' : 'none';
+            
+            closeMenu();
         }
 
         function logout() {
@@ -1845,6 +1902,10 @@
                 document.getElementById('loginPage').style.display = 'flex';
                 document.getElementById('username').value = 'demo';
                 document.getElementById('password').value = 'acc123';
+                
+                // Close menu and reset sidebar state
+                const sidebar = document.querySelector('.sidebar');
+                sidebar.classList.remove('active');
             }
         }
 
