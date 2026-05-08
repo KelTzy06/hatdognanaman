@@ -338,6 +338,9 @@
             font-size: 20px;
             cursor: pointer;
             transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
         .convert-btn:hover {
@@ -456,6 +459,70 @@
             text-transform: uppercase;
         }
 
+        .base-input-group {
+            margin-bottom: 20px;
+        }
+
+        .base-input-label {
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: 1px;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            display: block;
+        }
+
+        .base-input-label.decimal {
+            color: #6366f1;
+        }
+
+        .base-input-label.binary {
+            color: #10b981;
+        }
+
+        .base-input-label.hex {
+            color: #f59e0b;
+        }
+
+        .base-input-label.octal {
+            color: #6a7a8e;
+        }
+
+        .base-input {
+            width: 100%;
+            background: rgba(15, 20, 40, 0.8);
+            border: 2px solid rgba(100, 100, 150, 0.3);
+            border-radius: 12px;
+            padding: 16px;
+            color: #ffffff;
+            font-family: 'Courier New', monospace;
+            font-size: 24px;
+            font-weight: 300;
+            text-align: left;
+        }
+
+        .base-input:focus {
+            outline: none;
+            border-color: rgba(99, 102, 241, 0.6);
+            background: rgba(15, 20, 40, 0.95);
+        }
+
+        .base-input.decimal {
+            border-color: rgba(99, 102, 241, 0.5);
+        }
+
+        .base-input.binary {
+            border-color: rgba(16, 185, 129, 0.5);
+        }
+
+        .base-input.hex {
+            border-color: rgba(245, 158, 11, 0.5);
+        }
+
+        .base-input.octal {
+            border-color: rgba(106, 122, 142, 0.5);
+        }
+
         .number-pad {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
@@ -505,11 +572,16 @@
             background: rgba(30, 40, 65, 0.6);
             border: 1px solid rgba(100, 100, 150, 0.3);
             border-radius: 8px;
-            color: #a0a0b8;
+            color: #ffffff;
             cursor: pointer;
             font-weight: 600;
             min-width: 80px;
             text-align: center;
+        }
+
+        .electrical-unit option {
+            color: #000000;
+            background: #ffffff;
         }
 
         .button-group {
@@ -733,7 +805,7 @@
                         </div>
                     </div>
 
-                    <div style="text-align: center; margin: 25px 0;">
+                    <div style="display: flex; justify-content: center; align-items: center; margin: 12px 0;">
                         <div class="convert-btn" onclick="swapUnits()">⇄</div>
                     </div>
 
@@ -784,44 +856,27 @@
                 </div>
 
                 <div id="programmerCalc" style="display: none;">
-                    <div style="margin-bottom: 15px;">
-                        <div class="base-label">Decimal (Base 10)</div>
-                        <div class="base-display" id="decimalDisplay">0</div>
+                    <div class="base-input-group">
+                        <label class="base-input-label decimal">Decimal (Base 10)</label>
+                        <input type="text" id="decimalInput" class="base-input decimal" placeholder="0" oninput="convertFromDecimal()">
                     </div>
 
-                    <div style="margin-bottom: 15px;">
-                        <div class="base-label">Binary (Base 2)</div>
-                        <div class="base-display" id="binaryDisplay">0</div>
+                    <div class="base-input-group">
+                        <label class="base-input-label binary">Binary (Base 2)</label>
+                        <input type="text" id="binaryInput" class="base-input binary" placeholder="0" oninput="convertFromBinary()">
                     </div>
 
-                    <div style="margin-bottom: 15px;">
-                        <div class="base-label">Hexadecimal (Base 16)</div>
-                        <div class="base-display" id="hexDisplay">0</div>
+                    <div class="base-input-group">
+                        <label class="base-input-label hex">Hexadecimal (Base 16)</label>
+                        <input type="text" id="hexInput" class="base-input hex" placeholder="0" oninput="convertFromHex()">
                     </div>
 
-                    <div style="margin-bottom: 20px;">
-                        <div class="base-label">Octal (Base 8)</div>
-                        <div class="base-display" id="octalDisplay">0</div>
+                    <div class="base-input-group">
+                        <label class="base-input-label octal">Octal (Base 8)</label>
+                        <input type="text" id="octalInput" class="base-input octal" placeholder="0" oninput="convertFromOctal()">
                     </div>
 
-                    <div class="buttons-grid">
-                        <button class="btn" onclick="appendProgrammerNum('0')">0</button>
-                        <button class="btn" onclick="appendProgrammerNum('1')">1</button>
-                        <button class="btn" onclick="appendProgrammerNum('2')">2</button>
-                        <button class="btn" onclick="appendProgrammerNum('3')">3</button>
-                        <button class="btn" onclick="appendProgrammerNum('4')">4</button>
-                        <button class="btn" onclick="appendProgrammerNum('5')">5</button>
-                        <button class="btn" onclick="appendProgrammerNum('6')">6</button>
-                        <button class="btn" onclick="appendProgrammerNum('7')">7</button>
-                        <button class="btn" onclick="appendProgrammerNum('8')">8</button>
-                        <button class="btn" onclick="appendProgrammerNum('9')">9</button>
-                        <button class="btn operator" onclick="appendProgrammerNum('A')">A</button>
-                        <button class="btn operator" onclick="appendProgrammerNum('B')">B</button>
-                        <button class="btn operator" onclick="appendProgrammerNum('C')">C</button>
-                        <button class="btn operator" onclick="appendProgrammerNum('D')">D</button>
-                        <button class="btn operator" onclick="appendProgrammerNum('E')">E</button>
-                        <button class="btn clear" onclick="clearProgrammer()">C</button>
-                    </div>
+                    <button class="calc-btn secondary" onclick="clearProgrammer()" style="width: 100%;">Clear All</button>
                 </div>
 
                 <div id="electricalCalc" style="display: none;">
@@ -831,39 +886,72 @@
                     <p style="font-size: 13px; color: #a0a0b8; margin-bottom: 25px;">Enter any two values to calculate the others (Watts, Amps, Volts, Ohms).</p>
 
                     <div class="electrical-input-group">
-                        <label class="electrical-input-label">Power (Watts)</label>
+                        <label class="electrical-input-label">Power</label>
                         <div class="electrical-input-wrapper">
                             <input type="number" id="watts" class="electrical-input" placeholder="e.g. 24" oninput="calculateElectrical()">
-                            <select class="electrical-unit">W</select>
+                            <select id="wattUnit" class="electrical-unit" onchange="calculateElectrical()">
+                                <option>mW</option>
+                                <option selected>W</option>
+                                <option>kW</option>
+                            </select>
                         </div>
                     </div>
 
                     <div class="electrical-input-group">
-                        <label class="electrical-input-label">Current (Amps)</label>
+                        <label class="electrical-input-label">Current</label>
                         <div class="electrical-input-wrapper">
                             <input type="number" id="amps" class="electrical-input" placeholder="e.g. 2" oninput="calculateElectrical()">
-                            <select class="electrical-unit">A</select>
+                            <select id="ampUnit" class="electrical-unit" onchange="calculateElectrical()">
+                                <option>mA</option>
+                                <option selected>A</option>
+                            </select>
                         </div>
                     </div>
 
                     <div class="electrical-input-group">
-                        <label class="electrical-input-label">Voltage (Volts)</label>
+                        <label class="electrical-input-label">Voltage</label>
                         <div class="electrical-input-wrapper">
                             <input type="number" id="volts" class="electrical-input" placeholder="e.g. 12" oninput="calculateElectrical()">
-                            <select class="electrical-unit">V</select>
+                            <select id="voltUnit" class="electrical-unit" onchange="calculateElectrical()">
+                                <option>mV</option>
+                                <option selected>V</option>
+                                <option>kV</option>
+                            </select>
                         </div>
                     </div>
 
                     <div class="electrical-input-group">
-                        <label class="electrical-input-label">Resistance (Ohms)</label>
+                        <label class="electrical-input-label">Resistance</label>
                         <div class="electrical-input-wrapper">
                             <input type="number" id="resistance" class="electrical-input" placeholder="e.g. 6" oninput="calculateElectrical()">
-                            <select class="electrical-unit">Ω</select>
+                            <select id="ohmsUnit" class="electrical-unit" onchange="calculateElectrical()">
+                                <option>Ω</option>
+                                <option>kΩ</option>
+                                <option>MΩ</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="results-grid" id="electricalResults" style="display: none;">
+                        <div class="result-card">
+                            <div class="result-label">Power</div>
+                            <div class="result-value" id="wattResult">0 W</div>
+                        </div>
+                        <div class="result-card">
+                            <div class="result-label">Current</div>
+                            <div class="result-value" id="ampResult">0 A</div>
+                        </div>
+                        <div class="result-card">
+                            <div class="result-label">Voltage</div>
+                            <div class="result-value" id="voltResult">0 V</div>
+                        </div>
+                        <div class="result-card">
+                            <div class="result-label">Resistance</div>
+                            <div class="result-value" id="ohmResult">0 Ω</div>
                         </div>
                     </div>
 
                     <div class="button-group">
-                        <button class="calc-btn primary" onclick="calculateElectrical()">Calculate</button>
                         <button class="calc-btn secondary" onclick="clearElectrical()">Clear</button>
                     </div>
                 </div>
@@ -1041,31 +1129,99 @@
             document.getElementById('bmiStatus').textContent = status;
         }
 
-        let progValue = 0;
-
-        function appendProgrammerNum(n) {
-            progValue = progValue * 16 + parseInt(n, 16);
-            updateProgrammerDisplay();
+        function updateAllBases(decimalValue) {
+            if (isNaN(decimalValue) || decimalValue === '') {
+                document.getElementById('decimalInput').value = '';
+                document.getElementById('binaryInput').value = '';
+                document.getElementById('hexInput').value = '';
+                document.getElementById('octalInput').value = '';
+                return;
+            }
+            
+            const dec = parseInt(decimalValue);
+            if (isNaN(dec)) return;
+            
+            document.getElementById('decimalInput').value = dec;
+            document.getElementById('binaryInput').value = dec.toString(2);
+            document.getElementById('hexInput').value = dec.toString(16).toUpperCase();
+            document.getElementById('octalInput').value = dec.toString(8);
         }
 
-        function updateProgrammerDisplay() {
-            document.getElementById('decimalDisplay').textContent = progValue;
-            document.getElementById('binaryDisplay').textContent = progValue.toString(2);
-            document.getElementById('hexDisplay').textContent = progValue.toString(16).toUpperCase();
-            document.getElementById('octalDisplay').textContent = progValue.toString(8);
+        function convertFromDecimal() {
+            const value = document.getElementById('decimalInput').value;
+            if (value === '') {
+                updateAllBases('');
+                return;
+            }
+            const dec = parseInt(value, 10);
+            updateAllBases(dec);
+        }
+
+        function convertFromBinary() {
+            const value = document.getElementById('binaryInput').value;
+            if (value === '') {
+                updateAllBases('');
+                return;
+            }
+            const dec = parseInt(value, 2);
+            updateAllBases(dec);
+        }
+
+        function convertFromHex() {
+            const value = document.getElementById('hexInput').value;
+            if (value === '') {
+                updateAllBases('');
+                return;
+            }
+            const dec = parseInt(value, 16);
+            updateAllBases(dec);
+        }
+
+        function convertFromOctal() {
+            const value = document.getElementById('octalInput').value;
+            if (value === '') {
+                updateAllBases('');
+                return;
+            }
+            const dec = parseInt(value, 8);
+            updateAllBases(dec);
         }
 
         function clearProgrammer() {
-            progValue = 0;
-            updateProgrammerDisplay();
+            document.getElementById('decimalInput').value = '';
+            document.getElementById('binaryInput').value = '';
+            document.getElementById('hexInput').value = '';
+            document.getElementById('octalInput').value = '';
+        }
+
+        function getUnitMultiplier(unit, type) {
+            const multipliers = {
+                'watts': { 'mW': 0.001, 'W': 1, 'kW': 1000 },
+                'amps': { 'mA': 0.001, 'A': 1 },
+                'volts': { 'mV': 0.001, 'V': 1, 'kV': 1000 },
+                'ohms': { 'Ω': 1, 'kΩ': 1000, 'MΩ': 1000000 }
+            };
+            return multipliers[type][unit];
         }
 
         function calculateElectrical() {
-            let w = parseFloat(document.getElementById('watts').value) || 0;
-            let a = parseFloat(document.getElementById('amps').value) || 0;
-            let v = parseFloat(document.getElementById('volts').value) || 0;
-            let r = parseFloat(document.getElementById('resistance').value) || 0;
+            let wattUnit = document.getElementById('wattUnit').value;
+            let ampUnit = document.getElementById('ampUnit').value;
+            let voltUnit = document.getElementById('voltUnit').value;
+            let ohmsUnit = document.getElementById('ohmsUnit').value;
 
+            let wInput = parseFloat(document.getElementById('watts').value) || 0;
+            let aInput = parseFloat(document.getElementById('amps').value) || 0;
+            let vInput = parseFloat(document.getElementById('volts').value) || 0;
+            let rInput = parseFloat(document.getElementById('resistance').value) || 0;
+
+            // Convert to base units (W, A, V, Ω)
+            let w = wInput * getUnitMultiplier(wattUnit, 'watts');
+            let a = aInput * getUnitMultiplier(ampUnit, 'amps');
+            let v = vInput * getUnitMultiplier(voltUnit, 'volts');
+            let r = rInput * getUnitMultiplier(ohmsUnit, 'ohms');
+
+            // Calculate missing values using Ohm's and Watt's laws
             if (w > 0 && a > 0) {
                 v = w / a;
                 r = v / a;
@@ -1080,10 +1236,22 @@
                 w = a * v;
             }
 
-            document.getElementById('watts').value = w ? w.toFixed(2) : '';
-            document.getElementById('amps').value = a ? a.toFixed(2) : '';
-            document.getElementById('volts').value = v ? v.toFixed(2) : '';
-            document.getElementById('resistance').value = r ? r.toFixed(2) : '';
+            // Convert back to display units
+            let wDisplay = w / getUnitMultiplier(wattUnit, 'watts');
+            let aDisplay = a / getUnitMultiplier(ampUnit, 'amps');
+            let vDisplay = v / getUnitMultiplier(voltUnit, 'volts');
+            let rDisplay = r / getUnitMultiplier(ohmsUnit, 'ohms');
+
+            // Show results if any calculation was done
+            if (w > 0 || a > 0 || v > 0 || r > 0) {
+                document.getElementById('electricalResults').style.display = 'grid';
+                document.getElementById('wattResult').textContent = wDisplay ? wDisplay.toFixed(4) + ' ' + wattUnit : '0 ' + wattUnit;
+                document.getElementById('ampResult').textContent = aDisplay ? aDisplay.toFixed(4) + ' ' + ampUnit : '0 ' + ampUnit;
+                document.getElementById('voltResult').textContent = vDisplay ? vDisplay.toFixed(4) + ' ' + voltUnit : '0 ' + voltUnit;
+                document.getElementById('ohmResult').textContent = rDisplay ? rDisplay.toFixed(4) + ' ' + ohmsUnit : '0 ' + ohmsUnit;
+            } else {
+                document.getElementById('electricalResults').style.display = 'none';
+            }
         }
 
         function clearElectrical() {
@@ -1091,6 +1259,7 @@
             document.getElementById('amps').value = '';
             document.getElementById('volts').value = '';
             document.getElementById('resistance').value = '';
+            document.getElementById('electricalResults').style.display = 'none';
         }
 
         function switchCalculator(e, type) {
