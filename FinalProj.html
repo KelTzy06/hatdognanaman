@@ -204,6 +204,25 @@
             box-shadow: 0 6px 16px rgba(99, 102, 241, 0.4);
         }
 
+        .scientific-layout {
+            display: flex;
+            gap: 12px;
+        }
+
+        .sci-functions {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 12px;
+            flex: 1;
+        }
+
+        .sci-keypad {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 12px;
+            flex: 1;
+        }
+
         .tabs {
             display: flex;
             gap: 12px;
@@ -700,38 +719,46 @@
 
                 <div id="scientificCalc" style="display: none;">
                     <div class="display" id="sciDisplay">0</div>
-                    <div class="buttons-grid">
-                        <button class="btn operator" onclick="sciFunc('sin')">sin</button>
-                        <button class="btn operator" onclick="sciFunc('cos')">cos</button>
-                        <button class="btn operator" onclick="sciFunc('tan')">tan</button>
-                        <button class="btn operator" onclick="sciFunc('log')">log</button>
-                        <button class="btn" onclick="appendSciNum('7')">7</button>
-                        <button class="btn" onclick="appendSciNum('8')">8</button>
-                        <button class="btn" onclick="appendSciNum('9')">9</button>
-                        <button class="btn operator" onclick="appendSciOp('÷')">÷</button>
-                        <button class="btn operator" onclick="sciFunc('ln')">ln</button>
-                        <button class="btn operator" onclick="sciFunc('sqrt')">√</button>
-                        <button class="btn operator" onclick="appendSciOp('^')">^</button>
-                        <button class="btn operator" onclick="sciFunc('pi')">π</button>
-                        <button class="btn" onclick="appendSciNum('4')">4</button>
-                        <button class="btn" onclick="appendSciNum('5')">5</button>
-                        <button class="btn" onclick="appendSciNum('6')">6</button>
-                        <button class="btn operator" onclick="appendSciOp('x')">x</button>
-                        <button class="btn" onclick="appendSciNum('1')">1</button>
-                        <button class="btn" onclick="appendSciNum('2')">2</button>
-                        <button class="btn" onclick="appendSciNum('3')">3</button>
-                        <button class="btn operator" onclick="appendSciOp('-')">-</button>
-                        <button class="btn" onclick="appendSciNum('0')">0</button>
-                        <button class="btn operator" onclick="appendSciNum('.')">.</button>
-                        <button class="btn equals" onclick="sciCalcEqual()" style="grid-column: span 2;">=</button>
-                        <button class="btn operator" onclick="appendSciOp('+')" style="grid-column: span 1;">+</button>
+                    <div class="scientific-layout">
+                        <div class="sci-functions">
+                            <button class="btn operator" onclick="sciFunc('sin')">sin</button>
+                            <button class="btn operator" onclick="sciFunc('cos')">cos</button>
+                            <button class="btn operator" onclick="sciFunc('tan')">tan</button>
+                            <button class="btn operator" onclick="sciFunc('log')">log</button>
+                            <button class="btn operator" onclick="sciFunc('ln')">ln</button>
+                            <button class="btn operator" onclick="sciFunc('sqrt')">√</button>
+                            <button class="btn operator" onclick="appendSciOp('^')">^</button>
+                            <button class="btn operator" onclick="sciFunc('pi')">π</button>
+                            <button class="btn operator" onclick="sciFunc('e')">e</button>
+                            <button class="btn operator" onclick="appendSciNum('(')">( </button>
+                            <button class="btn operator" onclick="appendSciNum(')')">)</button>
+                            <button class="btn clear" onclick="clearScientific()">C</button>
+                        </div>
+                        <div class="sci-keypad">
+                            <button class="btn" onclick="appendSciNum('7')">7</button>
+                            <button class="btn" onclick="appendSciNum('8')">8</button>
+                            <button class="btn" onclick="appendSciNum('9')">9</button>
+                            <button class="btn operator" onclick="appendSciOp('÷')">÷</button>
+                            <button class="btn" onclick="appendSciNum('4')">4</button>
+                            <button class="btn" onclick="appendSciNum('5')">5</button>
+                            <button class="btn" onclick="appendSciNum('6')">6</button>
+                            <button class="btn operator" onclick="appendSciOp('x')">x</button>
+                            <button class="btn" onclick="appendSciNum('1')">1</button>
+                            <button class="btn" onclick="appendSciNum('2')">2</button>
+                            <button class="btn" onclick="appendSciNum('3')">3</button>
+                            <button class="btn operator" onclick="appendSciOp('-')">-</button>
+                            <button class="btn" onclick="appendSciNum('0')">0</button>
+                            <button class="btn" onclick="appendSciNum('00')">00</button>
+                            <button class="btn operator" onclick="appendSciNum('.')">.</button>
+                            <button class="btn operator" onclick="appendSciOp('+')">+</button>
+                        </div>
                     </div>
+                    <button class="btn equals" onclick="sciCalcEqual()" style="width: 100%; margin-top: 12px;">=</button>
                 </div>
 
                 <div id="financialCalc" style="display: none;">
                     <div class="tabs">
                         <button class="tab-btn active" onclick="switchTab('savings')">💰 Savings Tracker</button>
-                        <button class="tab-btn" onclick="switchTab('loan')">📊 Loan Calc</button>
                     </div>
 
                     <div id="savingsTab">
@@ -1020,6 +1047,7 @@
             else if (func === 'ln') sciDisplay = Math.log(val).toString();
             else if (func === 'sqrt') sciDisplay = Math.sqrt(val).toString();
             else if (func === 'pi') sciDisplay = Math.PI.toString();
+            else if (func === 'e') sciDisplay = Math.E.toString();
             sciReset = true;
             document.getElementById('sciDisplay').textContent = sciDisplay;
         }
